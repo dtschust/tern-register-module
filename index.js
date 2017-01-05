@@ -1,18 +1,19 @@
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
-    return mod(require("../lib/infer"), require("../lib/tern"), require("acorn/dist/walk"))
+    return mod(require("tern/lib/infer"), require("tern/lib/tern"), require("acorn/dist/walk"))
   if (typeof define == "function" && define.amd) // AMD
-    return define(["../lib/infer", "../lib/tern", "acorn/dist/walk"], mod)
+    return define(["tern/lib/infer", "tern/lib/tern", "acorn/dist/walk"], mod)
   mod(tern, tern, acorn.walk)
 })(function(infer, tern, walk) {
   "use strict"
-
   function findModules(file) {
 
     walk.simple(file.ast, {
       CallExpression: function(node) {
         var callee = node.callee
-        if (callee && callee.object && callee.object.name === 'TS' && callee.property && callee.property.name && callee.property.name === 'registerModule') {
+        if (callee && callee.object && callee.object.name === 'TS'
+            && callee.property && callee.property.name && callee.property.name === 'registerModule'
+            && node.arguments[0].type === 'Literal') {
           //get top scope:
           var scope = file.scope
           while (scope.prev) {
@@ -37,7 +38,6 @@
             moduleName = moduleName.split('.').slice(-1).join();
             var scope = scopes.shift();
             while (scope) {
-              debugger;
               if (depth.hasProp(scope)) {
                 // do nothing, we're golden
               } else {
@@ -48,7 +48,6 @@
               depth = depth.props[scope].types[0]
               scope = scopes.shift();
             }
-            debugger;
           }
           var module = node.arguments[1];
           depth.defProp(moduleName, module);
@@ -58,7 +57,7 @@
     })
   }
 
-  tern.registerPlugin("es_modules", function(server) {
+  tern.registerPlugin("register-module", function(server) {
     server.on("afterLoad", findModules)
   })
 })
