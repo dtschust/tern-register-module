@@ -1,0 +1,19 @@
+{
+  "name": "tern-register-module",
+  "version": "1.0.0",
+  "description": ":shrug:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dtschust/tern-register-module.git"
+  },
+  "author": "Drew Schuster <dtschust@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dtschust/tern-register-module/issues"
+  },
+  "homepage": "https://github.com/dtschust/tern-register-module#readme"
+}
