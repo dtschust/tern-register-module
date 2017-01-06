@@ -47,7 +47,7 @@
               }
             }
             var module = node.arguments[1];
-            if (false && depth.hasProp(moduleName) || !module || !module.objType) {
+            if (depth.hasProp(moduleName) || !module || !module.objType) {
               // Do nothing for now
             } else {
               depth.defProp(moduleName, module);
